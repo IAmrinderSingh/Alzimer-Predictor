@@ -126,13 +126,32 @@
                         labore et dolore magna aliq</p>
 				    </div>
 			    </div> -->
-				<form action="{{ url_for('predict') }}" method="POST">
+				<form action="{{ url_for('predict')}}" method="POST" enctype="multipart/form-data">
 					<div class="d-flex justify-content-center">
-						<input type="file" class="" name="image" id="image"  accept="image/png, image/jpeg">
+						<input type="file" name="imgInp" id="imgInp"  accept="image/png, image/jpeg" >
+						<br>
+						<img id="preview-image" class="d-none" src="#" alt="Preview Image">
 					</div>
+					
 					<div class="read_bt_main">
-						<div class="read_text_2 d-inline"><button class="d-inline btn btn-primary" type="submit" >Predict</button></div>
+						<div class="read_text_2"><button class="d-inline btn btn-primary" type="submit">Predict</button></div>
 					</div>
+
+					<br>
+					<div class="clearfix"></div>
+
+					{% if output %}
+
+					<div class="d-flex justify-content-center mt-5 text-center">
+						
+						<div >
+							<h2 class="h1 dark" >Output</h2>
+							<p class="h4 dark" >{{output}}</p>
+						</div>
+
+					</div>
+					{% endif %}
+
 				</form>
 				
 				<!-- <h2>Output</h2>
@@ -224,23 +243,34 @@
 	</div>
 	<!--copyright section end -->
 	 <!-- Javascript files-->
-    <script src="js/jquery.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/jquery-3.0.0.min.js"></script>
-    <script src="js/plugin.js"></script>
+    <script src="{{ url_for('static',filename='js/jquery.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='js/popper.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='js/jquery-3.0.0.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='js/plugin.js')}}"></script>
     <!-- sidebar -->
-    <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
-    <script src="js/custom.js"></script>
+    <script src="{{ url_for('static',filename='js/jquery.mCustomScrollbar.concat.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='js/custom.js')}}"></script>
     <!-- javascript --> 
-    <script src="js/owl.carousel.js"></script>
+    <script src="{{ url_for('static',filename='js/owl.carousel.js')}}"></script>
     <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
     <script>
     $(document).ready(function(){
-    $(".fancybox").fancybox({
-        openEffect: "none",
-        closeEffect: "none"
-        })});
+    // $(".fancybox").fancybox({
+    //     openEffect: "none",
+    //     closeEffect: "none"
+    // })
+	$('#imgInp').change(function() {
+		var input = $(this)[0];
+		var file = input.files[0];
+		var reader = new FileReader();
+		reader.onload = function(e) {
+			$("#preview-image").attr("src", e.target.result);
+			$("#preview-image").removeClass('d-none');
+		}
+		reader.readAsDataURL(file);
+		});
+	});
     </script>
 </body>
 </html>

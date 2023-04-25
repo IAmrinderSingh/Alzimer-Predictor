@@ -1,27 +1,8 @@
 from flask import Flask, request,render_template
-# import tensorflow as tf
-# import numpy as np
+
+import os;
 
 app = Flask(__name__)
-# model = tf.keras.models.load_model('path/to/model.h5')
-
-# @app.route('/predict', methods=['POST'])
-# def predict():
-#     print('')
-#     # get image data from request
-#     image_data = request.files['image'].read()
-
-#     # preprocess image data
-#     # ...   
-
-#     # make prediction
-#     prediction = model.predict(preprocessed_image)
-
-#     # format prediction result
-#     # ...
-
-#     # return prediction result
-#     return prediction_result
 
 @app.route('/')
 def home():
@@ -29,8 +10,20 @@ def home():
 
 @app.route('/predict',methods=['POST'])
 def predict():
-    print('predicting')
-    return 'function executed'
+
+    if request.method == 'POST':
+        image_data = request.files["imgInp"]
+        if(not image_data):
+            return render_template('index.html',output="Please Choose Image")
+        
+        directory = os.path.join('static/uploads/',image_data.filename);
+
+        print(directory);
+
+        # output=
+        return render_template('index.html',output=output)
+    
+    return render_template('index.html')
 
 @app.route('/about')
 def about():

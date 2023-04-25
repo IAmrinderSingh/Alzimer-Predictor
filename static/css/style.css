@@ -350,6 +350,9 @@ button {
     float: left;
     margin-top: 50px;
 }
+.dark{
+     color: #000;
+}
 
 .read_text_2 a{
     width: 100%;
